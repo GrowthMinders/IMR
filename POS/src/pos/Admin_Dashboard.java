@@ -40,6 +40,7 @@ public class Admin_Dashboard extends javax.swing.JFrame {
         btnReport.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnReport.setIcon(new javax.swing.ImageIcon("D:\\IMR\\POS\\src\\pos\\folder\\document.png")); // NOI18N
         btnReport.setText("Report");
+        btnReport.setIconTextGap(15);
         btnReport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReportActionPerformed(evt);
@@ -49,10 +50,17 @@ public class Admin_Dashboard extends javax.swing.JFrame {
         btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLogout.setIcon(new javax.swing.ImageIcon("D:\\IMR\\POS\\src\\pos\\folder\\logout.png")); // NOI18N
         btnLogout.setText("Logout");
+        btnLogout.setIconTextGap(15);
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
 
         btnProducts.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnProducts.setIcon(new javax.swing.ImageIcon("D:\\IMR\\POS\\src\\pos\\folder\\box (2).png")); // NOI18N
         btnProducts.setText("Products");
+        btnProducts.setIconTextGap(15);
         btnProducts.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnProductsActionPerformed(evt);
@@ -62,6 +70,7 @@ public class Admin_Dashboard extends javax.swing.JFrame {
         btnEmp.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnEmp.setIcon(new javax.swing.ImageIcon("D:\\IMR\\POS\\src\\pos\\folder\\employee.png")); // NOI18N
         btnEmp.setText("Employee");
+        btnEmp.setIconTextGap(15);
         btnEmp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEmpActionPerformed(evt);
@@ -69,7 +78,14 @@ public class Admin_Dashboard extends javax.swing.JFrame {
         });
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon("D:\\IMR\\POS\\src\\pos\\folder\\offer.png")); // NOI18N
         jButton1.setText("Discount");
+        jButton1.setIconTextGap(15);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -106,16 +122,24 @@ public class Admin_Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpActionPerformed
-        // TODO add your handling code here:
+       // employee
     }//GEN-LAST:event_btnEmpActionPerformed
 
     private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
-        // TODO add your handling code here:
+       // report
     }//GEN-LAST:event_btnReportActionPerformed
 
     private void btnProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductsActionPerformed
-        // TODO add your handling code here:
+       // product
     }//GEN-LAST:event_btnProductsActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       // discount
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        // logout
+    }//GEN-LAST:event_btnLogoutActionPerformed
 
     /**
      * @param args the command line arguments

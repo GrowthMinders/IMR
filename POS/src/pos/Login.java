@@ -3,6 +3,7 @@ import javax.swing.JOptionPane;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JFrame;
 
 
 public class Login extends javax.swing.JPanel {
@@ -128,11 +129,13 @@ public class Login extends javax.swing.JPanel {
     
                if(rs.next()) {
                     if("admin".equals(rs.getString("etype"))){
-                        Admin_Dashboard admin= new Admin_Dashboard();
+                        Admin_Dashboard admin = new Admin_Dashboard();
+                        admin.setSize(915, 820);
                         admin.setVisible(true);
                     }else{
-                        Admin_Dashboard admin= new Admin_Dashboard();
-                        admin.setVisible(true);
+                        Cashier_Dashboard cashier = new Cashier_Dashboard();
+                        cashier.setSize(906, 694);
+                        cashier.setVisible(true);
                     }
                }else{
                     JOptionPane.showMessageDialog(null, "Invalid email or password. Try again.", "Error", JOptionPane.ERROR_MESSAGE);

@@ -1,4 +1,4 @@
-package pos;
+package pos.Emails;
 
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
@@ -6,7 +6,7 @@ import jakarta.mail.internet.MimeMessage;
 
 import java.util.Properties;
 
-public class ConfirmPayMail {
+public class ManagerContact {
 
     private static final String SMTP_HOST = "smtp.gmail.com";
     private static final String SMTP_PORT = "587";
