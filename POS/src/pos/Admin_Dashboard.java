@@ -1,5 +1,7 @@
 package pos;
 
+import javax.swing.JFrame;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -130,7 +132,17 @@ public class Admin_Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReportActionPerformed
 
     private void btnProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductsActionPerformed
-       // product
+        JFrame frame = new JFrame("Super Mart");
+
+        // Create an instance of your JPanel
+        Product pro = new Product();
+        
+        // Add the JPanel to the JFrame
+        frame.add(pro);
+
+        // Set size and make it visible
+        frame.setSize(663, 721); // Adjust size as needed
+        frame.setVisible(true);
     }//GEN-LAST:event_btnProductsActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
