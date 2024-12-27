@@ -72,6 +72,7 @@
           <Image iconType="2" name="D:\IMR\POS\src\pos\folder\document.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Report"/>
+        <Property name="iconTextGap" type="int" value="15"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReportActionPerformed"/>
@@ -86,7 +87,11 @@
           <Image iconType="2" name="D:\IMR\POS\src\pos\folder\logout.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Logout"/>
+        <Property name="iconTextGap" type="int" value="15"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLogoutActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnProducts">
       <Properties>
@@ -97,6 +102,7 @@
           <Image iconType="2" name="D:\IMR\POS\src\pos\folder\box (2).png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Products"/>
+        <Property name="iconTextGap" type="int" value="15"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProductsActionPerformed"/>
@@ -111,6 +117,7 @@
           <Image iconType="2" name="D:\IMR\POS\src\pos\folder\employee.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Employee"/>
+        <Property name="iconTextGap" type="int" value="15"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEmpActionPerformed"/>
@@ -121,8 +128,15 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="14" style="1"/>
         </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="2" name="D:\IMR\POS\src\pos\folder\offer.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Discount"/>
+        <Property name="iconTextGap" type="int" value="15"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

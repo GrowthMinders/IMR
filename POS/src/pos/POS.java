@@ -10,7 +10,6 @@ public class POS {
         JPanel panel = new Login();
 
         // Set up the frame
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(672, 410);
 
         // Add the panel to the frame
