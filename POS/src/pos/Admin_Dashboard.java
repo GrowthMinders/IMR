@@ -110,7 +110,21 @@ public class Admin_Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEmpActionPerformed
 
     private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
+<<<<<<< Updated upstream
         // TODO add your handling code here:
+=======
+        JFrame frame = new JFrame("Super Mart");
+
+        // Create an instance of your JPanel
+        Report rep = new Report();
+        
+        // Add the JPanel to the JFrame
+        frame.add(rep);
+
+        // Set size and make it visible
+        frame.setSize(959, 319); // Adjust size as needed
+        frame.setVisible(true);
+>>>>>>> Stashed changes
     }//GEN-LAST:event_btnReportActionPerformed
 
     private void btnProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductsActionPerformed

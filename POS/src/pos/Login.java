@@ -3,6 +3,11 @@ import javax.swing.JOptionPane;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+<<<<<<< Updated upstream
+=======
+import javax.swing.JFrame;
+import org.mindrot.jbcrypt.BCrypt;
+>>>>>>> Stashed changes
 
 
 public class Login extends javax.swing.JPanel {
@@ -73,9 +78,9 @@ public class Login extends javax.swing.JPanel {
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
                         .addGap(75, 75, 75)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(146, 146, 146))))
         );
         layout.setVerticalGroup(
@@ -87,11 +92,11 @@ public class Login extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(54, 54, 54)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(60, 60, 60)
+                .addGap(54, 54, 54)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(66, Short.MAX_VALUE))
         );
@@ -102,7 +107,7 @@ public class Login extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
+    //TODO
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
@@ -118,22 +123,31 @@ public class Login extends javax.swing.JPanel {
         
             try {
 
-               String query = "SELECT * FROM employee WHERE eemail = ? AND epassword = ?";
+               String query = "SELECT epassword,etype FROM employee WHERE eemail = ?";
                PreparedStatement sql = Connections.connect().prepareStatement(query);
 
                sql.setString(1, jTextField1.getText());
-               sql.setString(2, jTextField2.getText());
 
                ResultSet rs = sql.executeQuery();
     
                if(rs.next()) {
+<<<<<<< Updated upstream
                     if("admin".equals(rs.getString("etype"))){
                         Admin_Dashboard admin= new Admin_Dashboard();
+=======
+                  if(BCrypt.checkpw(jTextField2.getText(), rs.getString("epassword"))){
+                    if("Administrator".equals(rs.getString("etype"))){
+                        Admin_Dashboard admin = new Admin_Dashboard();
+                        admin.setSize(915, 820);
+>>>>>>> Stashed changes
                         admin.setVisible(true);
                     }else{
                         Admin_Dashboard admin= new Admin_Dashboard();
                         admin.setVisible(true);
                     }
+                  }else{
+                     JOptionPane.showMessageDialog(null, "Invalid email or password. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
+                  }  
                }else{
                     JOptionPane.showMessageDialog(null, "Invalid email or password. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
                }
