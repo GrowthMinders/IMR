@@ -194,6 +194,7 @@ public class Cashier_Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
         /*JFrame frame = new JFrame("Super Mart");
 
         // Create an instance of your JPanel
@@ -204,6 +205,7 @@ public class Cashier_Dashboard extends javax.swing.JFrame {
 
         // Set size and make it visible
         frame.setSize(663, 721); // Adjust size as needed
+
         frame.setVisible(true);*/
     }//GEN-LAST:event_jButton2ActionPerformed
 

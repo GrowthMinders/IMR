@@ -31,33 +31,38 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <EmptySpace min="0" pref="32" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="btnReport" min="-2" pref="216" max="-2" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="btnProducts" alignment="1" max="32767" attributes="0"/>
+                      <Component id="btnReport" alignment="1" max="32767" attributes="0"/>
+                      <Component id="btnLogout" alignment="1" min="-2" pref="216" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="btnEmp" min="-2" pref="216" max="-2" attributes="0"/>
                   <Component id="jButton1" min="-2" pref="216" max="-2" attributes="0"/>
-                  <Component id="btnProducts" alignment="1" min="-2" pref="216" max="-2" attributes="0"/>
-                  <Component id="btnLogout" alignment="1" min="-2" pref="216" max="-2" attributes="0"/>
-                  <Component id="btnEmp" alignment="1" min="-2" pref="216" max="-2" attributes="0"/>
+                  <Component id="jButton2" min="-2" pref="216" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="667" max="32767" attributes="0"/>
+              <EmptySpace pref="661" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-              <Component id="btnProducts" min="-2" pref="106" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-              <Component id="jButton1" min="-2" pref="106" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-              <Component id="btnEmp" min="-2" pref="106" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-              <Component id="btnReport" min="-2" pref="106" max="-2" attributes="0"/>
-              <EmptySpace pref="50" max="32767" attributes="0"/>
-              <Component id="btnLogout" min="-2" pref="106" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+              <Component id="jButton2" min="-2" pref="67" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+              <Component id="btnProducts" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+              <Component id="btnEmp" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+              <Component id="btnReport" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+              <Component id="btnLogout" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="52" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -72,6 +77,7 @@
           <Image iconType="2" name="D:\IMR\POS\src\pos\folder\document.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Report"/>
+        <Property name="iconTextGap" type="int" value="15"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReportActionPerformed"/>
@@ -86,7 +92,11 @@
           <Image iconType="2" name="D:\IMR\POS\src\pos\folder\logout.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Logout"/>
+        <Property name="iconTextGap" type="int" value="15"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLogoutActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnProducts">
       <Properties>
@@ -97,6 +107,7 @@
           <Image iconType="2" name="D:\IMR\POS\src\pos\folder\box (2).png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Products"/>
+        <Property name="iconTextGap" type="int" value="15"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProductsActionPerformed"/>
@@ -111,6 +122,7 @@
           <Image iconType="2" name="D:\IMR\POS\src\pos\folder\employee.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Employee"/>
+        <Property name="iconTextGap" type="int" value="15"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEmpActionPerformed"/>
@@ -121,8 +133,29 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="14" style="1"/>
         </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="2" name="D:\IMR\POS\src\pos\folder\offer.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Discount"/>
+        <Property name="iconTextGap" type="int" value="15"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton2">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="14" style="1"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="2" name="D:\IMR\POS\src\pos\folder\supplier.png"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Supplier"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -54,6 +54,7 @@ public class Employee extends javax.swing.JPanel {
             } catch (Exception ex) {
                  ex.printStackTrace();
             }
+
     }
     
     public void testemp(){
@@ -510,6 +511,7 @@ public class Employee extends javax.swing.JPanel {
                  ex.printStackTrace();
             }
             clean();
+
         }
         
     }//GEN-LAST:event_updateActionPerformed
@@ -578,6 +580,7 @@ public class Employee extends javax.swing.JPanel {
                 sql.setString(1, search3.getText());
                 ResultSet result = sql.executeQuery();
                 
+
                 // Add rows from the database
                 while (result.next()) {
                          

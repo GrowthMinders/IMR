@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
 import java.util.regex.Pattern;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.DefaultComboBoxModel;
-
 /**
  *
  * @author Supun
@@ -146,6 +145,7 @@ public class Product extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         txtCategory = new javax.swing.JTextField();
 
+
         txtSearchID.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
         btnEdit.setLabel("Edit");
@@ -156,9 +156,11 @@ public class Product extends javax.swing.JPanel {
         });
 
         label3.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
+
         label3.setText("Batch No:");
 
         btnSave.setText("Insert");
+
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
