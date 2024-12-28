@@ -16,7 +16,36 @@ public class Supplier extends javax.swing.JPanel {
     
     public Supplier() {
         initComponents();
-        
+        loaddata();
+    }
+    
+    private void loaddata(){
+        try {
+                String query = "SELECT * FROM supplier sup LEFT JOIN supplier_mobile smob ON sup.sid = smob.s_id";
+                PreparedStatement sql = Connections.connect().prepareStatement(query);
+
+                ResultSet result = sql.executeQuery();
+                
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                model.setRowCount(0);
+
+                // Add rows from the database
+                while (result.next()) {
+                     Object[] row = {
+                         result.getInt("sid"),
+                         result.getString("sname"),
+                         result.getString("semail"),
+                         result.getString("slocation"),
+                         result.getString("stel"),
+                         result.getString("stel1"),
+                     };
+                   model.addRow(row);
+                   
+                }
+
+            } catch (Exception ex) {
+                 ex.printStackTrace();
+            }
     }
     
     
@@ -33,13 +62,62 @@ public class Supplier extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Invalid first name", "Warning", JOptionPane.WARNING_MESSAGE);
         }else if(!Pattern.matches("^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$", mail.getText())) {
             JOptionPane.showMessageDialog(null, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+        }else if(Pattern.matches("^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$", mail.getText())){
+               try {
+                    String query = "SELECT semail FROM supplier WHERE semail = ? ";
+                    PreparedStatement sql = Connections.connect().prepareStatement(query);
+                
+                    sql.setString(1, mail.getText());
+                    ResultSet result = sql.executeQuery();
+
+                    if(result.next()){
+                       JOptionPane.showMessageDialog(null, "These email is already registered", "Warning", JOptionPane.WARNING_MESSAGE); 
+                    }
+              
+            }catch (Exception ex){
+                    ex.printStackTrace();
+            }
         }else if(!Pattern.matches("^[0-9a-zA-Z#,\\-.\\s/()]+,\\s*[a-zA-Z\\s]+,\\s*[a-zA-Z\\s]+,\\s*(\\d{5})?$", location.getText())) {
             JOptionPane.showMessageDialog(null, "Invalid Address", "Warning", JOptionPane.WARNING_MESSAGE); 
         }else if(!Pattern.matches("^[0-9]{10}$", tel1.getText())) {
             JOptionPane.showMessageDialog(null, "Invalid telephone number", "Warning", JOptionPane.WARNING_MESSAGE);
+        }else if(Pattern.matches("^[0-9]{10}$", tel1.getText())){
+                 try {
+                    String query = "SELECT stel, stel1 FROM supplier_mobile WHERE stel = ? OR stel1 = ?";
+                    PreparedStatement sql = Connections.connect().prepareStatement(query);
+                
+                    sql.setString(1, tel1.getText());
+                    sql.setString(2, tel1.getText());
+                    ResultSet result = sql.executeQuery();
+
+                    if(result.next()){
+                       JOptionPane.showMessageDialog(null, "These telephone number is already registered", "Warning", JOptionPane.WARNING_MESSAGE); 
+                    }
+              
+
+                 }catch (Exception ex){
+                    ex.printStackTrace();
+                 }
         }else if(!tel2.getText().isEmpty()){
               if(!Pattern.matches("^[0-9]{10}$", tel2.getText())) {
                  JOptionPane.showMessageDialog(null, "Invalid telephone number", "Warning", JOptionPane.WARNING_MESSAGE);
+              }else{
+                 try {
+                    String query = "SELECT stel, stel1 FROM supplier_mobile WHERE stel = ? OR stel1 = ?";
+                    PreparedStatement sql = Connections.connect().prepareStatement(query);
+                
+                    sql.setString(1, tel2.getText());
+                    sql.setString(2, tel2.getText());
+                    ResultSet result = sql.executeQuery();
+
+                    if(result.next()){
+                       JOptionPane.showMessageDialog(null, "These telephone number is already registered", "Warning", JOptionPane.WARNING_MESSAGE); 
+                    }
+              
+
+                 }catch (Exception ex){
+                    ex.printStackTrace();
+                 }
               }
         }
     }
@@ -378,21 +456,8 @@ public class Supplier extends javax.swing.JPanel {
 
                 sql.setString(1, search.getText());
                 ResultSet result = sql.executeQuery();
-                
-                DefaultTableModel model = (DefaultTableModel) table.getModel();
-                model.setRowCount(0);
 
-                // Add rows from the database
                 while (result.next()) {
-                     Object[] row = {
-                         result.getInt("sid"),
-                         result.getString("sfname"),
-                         result.getString("semail"),
-                         result.getString("slocation"),
-                         result.getString("stel"),
-                         result.getString("stel1"),
-                     };
-                   model.addRow(row);
                    
                          first.setText(result.getString("sname"));
                          mail.setText(result.getString("semail"));

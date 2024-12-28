@@ -22,6 +22,39 @@ public class Employee extends javax.swing.JPanel {
      */
     public Employee() {
         initComponents();
+        loaddata();
+    }
+    
+    private void loaddata(){
+         try {
+                String query = "SELECT * FROM employee emp LEFT JOIN employee_mobile emob ON emp.eid = emob.e_id";
+                PreparedStatement sql = Connections.connect().prepareStatement(query);
+
+                ResultSet result = sql.executeQuery();
+                
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                model.setRowCount(0);
+
+                // Add rows from the database
+                while (result.next()) {
+                     Object[] row = {
+                         result.getInt("eid"),
+                         result.getString("efname"),
+                         result.getString("elname"),
+                         result.getString("epassword"),
+                         result.getString("egender"),
+                         result.getString("eemail"),
+                         result.getString("etype"),
+                         result.getString("etel"),
+                         result.getString("etel1")
+                     };
+                   model.addRow(row);              
+                }
+
+            } catch (Exception ex) {
+                 ex.printStackTrace();
+            }
+
     }
     
     public void testemp(){
@@ -43,11 +76,60 @@ public class Employee extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Password must include uppercase, lowercase, digits, special characters, and be 8-24 characters", "Warning", JOptionPane.WARNING_MESSAGE);
         }else if(!Pattern.matches("^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$", jTextField3.getText())) {
             JOptionPane.showMessageDialog(null, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+        }else if(Pattern.matches("^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$", jTextField3.getText())){
+            try {
+                    String query = "SELECT eemail FROM employee WHERE eemail = ? ";
+                    PreparedStatement sql = Connections.connect().prepareStatement(query);
+                
+                    sql.setString(1, jTextField3.getText());
+                    ResultSet result = sql.executeQuery();
+
+                    if(result.next()){
+                       JOptionPane.showMessageDialog(null, "These email is already registered", "Warning", JOptionPane.WARNING_MESSAGE); 
+                    }
+              
+            }catch (Exception ex){
+                    ex.printStackTrace();
+            }
         }else if(!Pattern.matches("^[0-9]{10}$", jTextField5.getText())) {
             JOptionPane.showMessageDialog(null, "Invalid telephone number", "Warning", JOptionPane.WARNING_MESSAGE);
+        }else if(Pattern.matches("^[0-9]{10}$", jTextField5.getText())){
+            try {
+                    String query = "SELECT etel, etel1 FROM employee_mobile WHERE etel = ? OR etel1 = ?";
+                    PreparedStatement sql = Connections.connect().prepareStatement(query);
+                
+                    sql.setString(1, jTextField5.getText());
+                    sql.setString(2, jTextField5.getText());
+                    ResultSet result = sql.executeQuery();
+
+                    if(result.next()){
+                       JOptionPane.showMessageDialog(null, "These telephone number is already registered", "Warning", JOptionPane.WARNING_MESSAGE); 
+                    }
+              
+
+            }catch (Exception ex){
+                    ex.printStackTrace();
+            }
         }else if(!jTextField6.getText().isEmpty()){
               if(!Pattern.matches("^[0-9]{10}$", jTextField6.getText())) {
-                 JOptionPane.showMessageDialog(null, "Please enter a valid 10-digit telephone number.", "Warning", JOptionPane.WARNING_MESSAGE);
+                 JOptionPane.showMessageDialog(null, "Invalid telephone number.", "Warning", JOptionPane.WARNING_MESSAGE);
+              }else{
+                 try {
+                    String query = "SELECT etel, etel1 FROM employee_mobile WHERE etel = ? OR etel1 = ?";
+                    PreparedStatement sql = Connections.connect().prepareStatement(query);
+                
+                    sql.setString(1, jTextField6.getText());
+                    sql.setString(2, jTextField6.getText());
+                    ResultSet result = sql.executeQuery();
+
+                    if(result.next()){
+                       JOptionPane.showMessageDialog(null, "These telephone number is already registered", "Warning", JOptionPane.WARNING_MESSAGE); 
+                    }
+              
+
+                 }catch (Exception ex){
+                    ex.printStackTrace();
+                 }
               }
         }
     }
@@ -353,45 +435,48 @@ public class Employee extends javax.swing.JPanel {
     private void insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertActionPerformed
         testemp();
         
-           try {
-               //INSERTING EMPLOYEE DETAILS
-                String pass = jTextField7.getText();
-                String hash = BCrypt.hashpw(pass, BCrypt.gensalt());
+          try {
+    // INSERTING EMPLOYEE DETAILS
+    String pass = jTextField7.getText();
+    String hash = BCrypt.hashpw(pass, BCrypt.gensalt());
 
-                String query = "INSERT INTO employee(efname, elname, epassword, egender, eemail, etype) VALUES(?, ?, ?, ?, ?, ?)";
-                PreparedStatement sql = Connections.connect().prepareStatement(query);
+    String query = "INSERT INTO employee(efname, elname, epassword, egender, eemail, etype) VALUES(?, ?, ?, ?, ?, ?)";
+    PreparedStatement sql = Connections.connect().prepareStatement(query);
 
-                sql.setString(1, jTextField1.getText());
-                sql.setString(2, jTextField2.getText());
-                sql.setString(3, hash);
-                sql.setString(4, jComboBox1.getSelectedItem().toString());
-                sql.setString(5, jTextField3.getText());
-                sql.setString(6, jComboBox2.getSelectedItem().toString());
+    sql.setString(1, jTextField1.getText());
+    sql.setString(2, jTextField2.getText());
+    sql.setString(3, hash);
+    sql.setString(4, jComboBox1.getSelectedItem().toString());
+    sql.setString(5, jTextField3.getText());
+    sql.setString(6, jComboBox2.getSelectedItem().toString());
 
-                sql.executeUpdate();
-                //GETTING THE ID TO INSERT TELEPHONE NUMBER
-                String query1 = "SELECT eid FROM employee WHERE eemail = ?";
-                PreparedStatement sql1 = Connections.connect().prepareStatement(query1);
-                String id = ""; 
-                sql1.setString(1, jTextField3.getText());
-                ResultSet result = sql1.executeQuery();
-                    if (result.next()){
-                       id = result.getString("eid");
-                    }
-                
-                //INSERTING TELEPHONE NUMBER
-                String query2 = "INSERT INTO employee_mobile(e_id, etel, etel1) VALUES(?, ?, ?)";
-                PreparedStatement sql2 = Connections.connect().prepareStatement(query2);
+    sql.executeUpdate();
 
-                sql2.setString(1, id);
-                sql2.setString(2, jTextField5.getText());
-                sql2.setString(3, jTextField6.getText());
+    // GETTING THE ID TO INSERT TELEPHONE NUMBER
+    String query1 = "SELECT eid FROM employee WHERE eemail = ?";
+    PreparedStatement sql1 = Connections.connect().prepareStatement(query1);
+    sql1.setString(1, jTextField3.getText());
 
-                sql2.executeUpdate();
+    ResultSet result = sql1.executeQuery();
+    String id = "";
+    if (result.next()) {
+        id = result.getString("eid");
+    }
 
-            } catch (Exception ex) {
-                 ex.printStackTrace();
-            }
+    // INSERTING TELEPHONE NUMBER
+    String query2 = "INSERT INTO employee_mobile(e_id, etel, etel1) VALUES(?, ?, ?)";
+    PreparedStatement sql2 = Connections.connect().prepareStatement(query2);
+
+    sql2.setString(1, id);
+    sql2.setString(2, jTextField5.getText());
+    sql2.setString(3, jTextField6.getText());
+
+    sql2.executeUpdate();
+
+} catch (Exception ex) {
+    ex.printStackTrace();
+}
+
            
     }//GEN-LAST:event_insertActionPerformed
 
@@ -399,6 +484,7 @@ public class Employee extends javax.swing.JPanel {
         if (search3.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "ID needed", "Warning", JOptionPane.WARNING_MESSAGE);
         }else{
+            testemp();
             try {
                 String query = "UPDATE employee emp JOIN employee_mobile emob ON emp.eid = emob.e_id SET emp.efname = ?, emp.elname = ?, emp.epassword = ?, emp.egender = ?, emp.eemail = ?, emp.etype = ?, emob.e_id = ?, emob.etel = ?, emob.etel1 = ? WHERE emp.eid = ?";
                 PreparedStatement sql = Connections.connect().prepareStatement(query);
@@ -420,13 +506,12 @@ public class Employee extends javax.swing.JPanel {
                 sql.setString(10, search3.getText());
                 
                 sql.executeUpdate();
-                clean();
+                
             } catch (Exception ex) {
                  ex.printStackTrace();
             }
+            clean();
 
-            testemp();
-            
         }
         
     }//GEN-LAST:event_updateActionPerformed
@@ -495,23 +580,9 @@ public class Employee extends javax.swing.JPanel {
                 sql.setString(1, search3.getText());
                 ResultSet result = sql.executeQuery();
                 
-                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                model.setRowCount(0);
 
                 // Add rows from the database
                 while (result.next()) {
-                     Object[] row = {
-                         result.getInt("eid"),
-                         result.getString("efname"),
-                         result.getString("elname"),
-                         result.getString("epassword"),
-                         result.getString("egender"),
-                         result.getString("eemail"),
-                         result.getString("etype"),
-                         result.getString("etel"),
-                         result.getString("etel1")
-                     };
-                   model.addRow(row);
                          
                          jTextField1.setText(result.getString("efname"));
                          jTextField2.setText(result.getString("elname"));
