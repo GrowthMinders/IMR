@@ -7,6 +7,9 @@ import java.sql.SQLException;
 =======
 import javax.swing.JFrame;
 import org.mindrot.jbcrypt.BCrypt;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 
@@ -132,9 +135,12 @@ public class Login extends javax.swing.JPanel {
     
                if(rs.next()) {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                     if("admin".equals(rs.getString("etype"))){
                         Admin_Dashboard admin= new Admin_Dashboard();
 =======
+=======
+>>>>>>> Stashed changes
                   if(BCrypt.checkpw(jTextField2.getText(), rs.getString("epassword"))){
                     if("Administrator".equals(rs.getString("etype"))){
                         Admin_Dashboard admin = new Admin_Dashboard();

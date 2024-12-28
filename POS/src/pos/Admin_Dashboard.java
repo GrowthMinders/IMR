@@ -111,8 +111,11 @@ public class Admin_Dashboard extends javax.swing.JFrame {
 
     private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         // TODO add your handling code here:
 =======
+=======
+>>>>>>> Stashed changes
         JFrame frame = new JFrame("Super Mart");
 
         // Create an instance of your JPanel
@@ -124,6 +127,9 @@ public class Admin_Dashboard extends javax.swing.JFrame {
         // Set size and make it visible
         frame.setSize(959, 319); // Adjust size as needed
         frame.setVisible(true);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }//GEN-LAST:event_btnReportActionPerformed
 
