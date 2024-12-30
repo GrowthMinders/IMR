@@ -1,5 +1,7 @@
 package pos;
 
+import javax.swing.JFrame;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -32,6 +34,7 @@ public class Admin_Dashboard extends javax.swing.JFrame {
         btnProducts = new javax.swing.JButton();
         btnEmp = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -86,6 +89,15 @@ public class Admin_Dashboard extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon("D:\\IMR\\POS\\src\\pos\\folder\\supplier.png")); // NOI18N
+        jButton2.setText("Supplier");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -93,42 +105,53 @@ public class Admin_Dashboard extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 32, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnReport, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(btnProducts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnReport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnProducts, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(667, Short.MAX_VALUE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(661, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(btnProducts, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addComponent(btnEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(btnReport, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56))
+                .addGap(39, 39, 39)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(btnProducts)
+                .addGap(44, 44, 44)
+                .addComponent(jButton1)
+                .addGap(38, 38, 38)
+                .addComponent(btnEmp)
+                .addGap(36, 36, 36)
+                .addComponent(btnReport)
+                .addGap(37, 37, 37)
+                .addComponent(btnLogout)
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpActionPerformed
-       // employee
+        JFrame frame = new JFrame("Super Mart");
+
+        // Create an instance of your JPanel
+        Employee emp = new Employee();
+        
+        // Add the JPanel to the JFrame
+        frame.add(emp);
+
+        // Set size and make it visible
+        frame.setSize(663, 721); // Adjust size as needed
+        frame.setVisible(true);
     }//GEN-LAST:event_btnEmpActionPerformed
 
     private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
-<<<<<<< Updated upstream
-       // report
-=======
         JFrame frame = new JFrame("Super Mart");
 
         // Create an instance of your JPanel
@@ -140,11 +163,21 @@ public class Admin_Dashboard extends javax.swing.JFrame {
         // Set size and make it visible
         frame.setSize(959, 319); // Adjust size as needed
         frame.setVisible(true);
->>>>>>> Stashed changes
+
     }//GEN-LAST:event_btnReportActionPerformed
 
     private void btnProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductsActionPerformed
-       // product
+        JFrame frame = new JFrame("Super Mart");
+
+        // Create an instance of your JPanel
+        Product pro = new Product();
+        
+        // Add the JPanel to the JFrame
+        frame.add(pro);
+
+        // Set size and make it visible
+        frame.setSize(663, 721); // Adjust size as needed
+        frame.setVisible(true);
     }//GEN-LAST:event_btnProductsActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -164,6 +197,20 @@ public class Admin_Dashboard extends javax.swing.JFrame {
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // logout
     }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        JFrame frame = new JFrame("Super Mart");
+
+        // Create an instance of your JPanel
+        Supplier sup = new Supplier();
+        
+        // Add the JPanel to the JFrame
+        frame.add(sup);
+
+        // Set size and make it visible
+        frame.setSize(952, 948); // Adjust size as needed
+        frame.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -207,6 +254,7 @@ public class Admin_Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnProducts;
     private javax.swing.JButton btnReport;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
 }

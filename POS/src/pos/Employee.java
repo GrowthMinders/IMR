@@ -627,7 +627,6 @@ public class Employee extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton delete;
     private javax.swing.JButton insert;

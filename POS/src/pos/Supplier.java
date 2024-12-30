@@ -358,7 +358,6 @@ public class Supplier extends javax.swing.JPanel {
         if (!testemp()) {
           return;
         }
-
         try {
             
                 String query = "INSERT INTO supplier(sname, semail, slocation) VALUES(?, ?, ?)";
