@@ -137,7 +137,6 @@ public class Discount extends javax.swing.JPanel {
 
     return true;
 }
-
     public void clean(){
         name.setText("");
         sdate.setText("");
@@ -480,7 +479,6 @@ public class Discount extends javax.swing.JPanel {
           return;
         }
         try {
-            
                 String query = "UPDATE discount SET dname = ?, dstartdate = ?, denddate = ?, dproduct = ?, dcusteli = ?, dvalue = ? WHERE did = ?";
                 PreparedStatement sql = Connections.connect().prepareStatement(query);
 
@@ -507,7 +505,6 @@ public class Discount extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(null, "ID needed", "Warning", JOptionPane.WARNING_MESSAGE);  
       }else{
         try {
-            
                 String query = "DELETE FROM discount WHERE did = ?";
                 PreparedStatement sql = Connections.connect().prepareStatement(query);
 
@@ -553,7 +550,6 @@ public class Discount extends javax.swing.JPanel {
                 ResultSet result = sql.executeQuery();
 
                 while (result.next()) {
-                   
                          name.setText(result.getString("dname"));
                          sdate.setText(result.getString("dstartdate"));
                          edate.setText(result.getString("denddate"));
@@ -593,6 +589,7 @@ public class Discount extends javax.swing.JPanel {
             }
         }    
     }//GEN-LAST:event_jButton2ActionPerformed
+
 
     private void jLabel9AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel9AncestorAdded
         // TODO add your handling code here:

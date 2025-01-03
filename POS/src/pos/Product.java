@@ -76,26 +76,24 @@ public class Product extends javax.swing.JPanel {
 }
 
     
-    public void testpro(){
+    public boolean testpro(){
        if(txtName.getText() == null || txtName.getText().isEmpty()) {
            JOptionPane.showMessageDialog(null, "Please enter a product name", "Warning", JOptionPane.WARNING_MESSAGE);
+           return false;
        }else if(txtQty.getText() == null || txtQty.getText().isEmpty()) {
            JOptionPane.showMessageDialog(null, "Please enter the total quantity", "Warning", JOptionPane.WARNING_MESSAGE);
+           return false;
        }else if(txtPrice.getText() == null || txtPrice.getText().isEmpty()) {
            JOptionPane.showMessageDialog(null, "Please enter a product price", "Warning", JOptionPane.WARNING_MESSAGE);
+           return false;
        }else if(txtCategory.getText() == null || txtCategory.getText().isEmpty()) {
            JOptionPane.showMessageDialog(null, "Please enter a product category", "Warning", JOptionPane.WARNING_MESSAGE);
+           return false;
        }else if(txtBatch.getText() == null || txtBatch.getText().isEmpty()) {
            JOptionPane.showMessageDialog(null, "Please enter a product batch number", "Warning", JOptionPane.WARNING_MESSAGE);
+           return false;
        }else if(txtExpiry.getText() == null || txtExpiry.getText().isEmpty()) {
            JOptionPane.showMessageDialog(null, "Please enter product expiry date", "Warning", JOptionPane.WARNING_MESSAGE);
-<<<<<<< Updated upstream
-       }else if(!Pattern.matches("^[0-9]$", txtQty.getText())) {
-            JOptionPane.showMessageDialog(null, "Invalid quantity", "Warning", JOptionPane.WARNING_MESSAGE);
-       }else if(!Pattern.matches("^[0-9]$", txtPrice.getText())) {
-            JOptionPane.showMessageDialog(null, "Invalid price", "Warning", JOptionPane.WARNING_MESSAGE);     
-       }else if(!Pattern.matches("^[A-Aa-z]$", txtCategory.getText())) {
-=======
            return false;
        }else if(!Pattern.matches("^[0-9]+$", txtQty.getText())) {
             JOptionPane.showMessageDialog(null, "Invalid quantity", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -104,11 +102,14 @@ public class Product extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Invalid price", "Warning", JOptionPane.WARNING_MESSAGE);
             return false;
        }else if(!Pattern.matches("^[A-Za-z\\s]+$", txtCategory.getText())) {
->>>>>>> Stashed changes
             JOptionPane.showMessageDialog(null, "Invalid category", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
        }else if(!Pattern.matches("^[0-9]{2}/[0-9]{2}/[0-9]{4}$", txtExpiry.getText())) {
-            JOptionPane.showMessageDialog(null, "Invalid expiry", "Warning", JOptionPane.WARNING_MESSAGE);  
-       }     
+            JOptionPane.showMessageDialog(null, "Expiry should be(DD/MM/YYYY)", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
+       } 
+       
+       return true;
     }
     
     
@@ -348,7 +349,9 @@ public class Product extends javax.swing.JPanel {
        if(txtSearchID.getText() == null || txtSearchID.getText().isEmpty()) {
          JOptionPane.showMessageDialog(null, "ID needed", "Warning", JOptionPane.WARNING_MESSAGE);
        }else{
-         testpro();
+         if (!testpro()) {
+          return;
+         }
             try {
                 String query = "UPDATE product SET pname = ?, pstock = ?, price = ?, pcategory = ?, pbatchno = ?, pexpiry = ?, psupply = ? WHERE pid = ?";
                 PreparedStatement sql = Connections.connect().prepareStatement(query);
@@ -375,15 +378,10 @@ public class Product extends javax.swing.JPanel {
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-<<<<<<< Updated upstream
-        testpro();
-        try {
-=======
         if (!testpro()) {
           return;
         }else{
             try {
->>>>>>> Stashed changes
                 String query = "INSERT INTO product (pname, pstock, price, pcategory, pbatchno, pexpiry, psupply) VALUES(?,?,?,?,?,?,?)";
                 PreparedStatement sql = Connections.connect().prepareStatement(query);
                 

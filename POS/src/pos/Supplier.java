@@ -49,26 +49,25 @@ public class Supplier extends javax.swing.JPanel {
     }
     
     
-    public void testemp(){
+    public boolean testemp(){
         if (first.getText() == null || first.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please enter a name", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
         }else if(mail.getText() == null || mail.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please enter an email", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
         }else if(location.getText() == null || location.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please enter an address", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
         }else if(tel1.getText() == null || tel1.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please enter an address", "Warning", JOptionPane.WARNING_MESSAGE);
-<<<<<<< Updated upstream
-        }else if(!Pattern.matches("^[A-Za-z]{3,50}$", first.getText())) {
-            JOptionPane.showMessageDialog(null, "Invalid first name", "Warning", JOptionPane.WARNING_MESSAGE);
-=======
             return false;
         }else if(!Pattern.matches("^[A-Za-z\\s]{3,50}$", first.getText())) {
             JOptionPane.showMessageDialog(null, "Invalid name", "Warning", JOptionPane.WARNING_MESSAGE);
             return false;
->>>>>>> Stashed changes
         }else if(!Pattern.matches("^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$", mail.getText())) {
             JOptionPane.showMessageDialog(null, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
         }else if(Pattern.matches("^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$", mail.getText())){
                try {
                     String query = "SELECT semail FROM supplier WHERE semail = ? ";
@@ -78,16 +77,19 @@ public class Supplier extends javax.swing.JPanel {
                     ResultSet result = sql.executeQuery();
 
                     if(result.next()){
-                       JOptionPane.showMessageDialog(null, "These email is already registered", "Warning", JOptionPane.WARNING_MESSAGE); 
+                       JOptionPane.showMessageDialog(null, "These email is already registered", "Warning", JOptionPane.WARNING_MESSAGE);
+                       return false;
                     }
               
             }catch (Exception ex){
                     ex.printStackTrace();
             }
         }else if(!Pattern.matches("^[0-9a-zA-Z#,\\-.\\s/()]+,\\s*[a-zA-Z\\s]+,\\s*[a-zA-Z\\s]+,\\s*(\\d{5})?$", location.getText())) {
-            JOptionPane.showMessageDialog(null, "Invalid Address", "Warning", JOptionPane.WARNING_MESSAGE); 
+            JOptionPane.showMessageDialog(null, "Invalid Address", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
         }else if(!Pattern.matches("^[0-9]{10}$", tel1.getText())) {
             JOptionPane.showMessageDialog(null, "Invalid telephone number", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
         }else if(Pattern.matches("^[0-9]{10}$", tel1.getText())){
                  try {
                     String query = "SELECT stel, stel1 FROM supplier_mobile WHERE stel = ? OR stel1 = ?";
@@ -98,7 +100,8 @@ public class Supplier extends javax.swing.JPanel {
                     ResultSet result = sql.executeQuery();
 
                     if(result.next()){
-                       JOptionPane.showMessageDialog(null, "These telephone number is already registered", "Warning", JOptionPane.WARNING_MESSAGE); 
+                       JOptionPane.showMessageDialog(null, "These telephone number is already registered", "Warning", JOptionPane.WARNING_MESSAGE);
+                       return false;
                     }
               
 
@@ -108,6 +111,7 @@ public class Supplier extends javax.swing.JPanel {
         }else if(!tel2.getText().isEmpty()){
               if(!Pattern.matches("^[0-9]{10}$", tel2.getText())) {
                  JOptionPane.showMessageDialog(null, "Invalid telephone number", "Warning", JOptionPane.WARNING_MESSAGE);
+                 return false;
               }else{
                  try {
                     String query = "SELECT stel, stel1 FROM supplier_mobile WHERE stel = ? OR stel1 = ?";
@@ -119,6 +123,7 @@ public class Supplier extends javax.swing.JPanel {
 
                     if(result.next()){
                        JOptionPane.showMessageDialog(null, "These telephone number is already registered", "Warning", JOptionPane.WARNING_MESSAGE); 
+                       return false;
                     }
               
 
@@ -127,6 +132,8 @@ public class Supplier extends javax.swing.JPanel {
                  }
               }
         }
+        
+        return true;
     }
     
     public void clean(){
@@ -349,13 +356,9 @@ public class Supplier extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertActionPerformed
-<<<<<<< Updated upstream
-        testemp();
-=======
         if (!testemp()) {
           return;
         }else{
->>>>>>> Stashed changes
         try {
             
                 String query = "INSERT INTO supplier(sname, semail, slocation) VALUES(?, ?, ?)";
@@ -398,7 +401,9 @@ public class Supplier extends javax.swing.JPanel {
         if (search.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "ID needed", "Warning", JOptionPane.WARNING_MESSAGE);
         }else{
-            testemp();
+            if (!testemp()) {
+               return;
+            }
             try {
             
                 String query = "UPDATE supplier SET sname = ?, semail = ?, slocation = ? WHERE sid = ?";

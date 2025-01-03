@@ -57,25 +57,39 @@ public class Employee extends javax.swing.JPanel {
 
     }
     
-    public void testemp(){
+    String password = "";
+    public boolean testemp(){
+        
+        char[] passarray = jPasswordField1.getPassword();
+        password = new String(passarray);
+        
         if (jTextField1.getText() == null || jTextField1.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please enter a first name", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
         }else if(jTextField2.getText() == null || jTextField2.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please enter a last name", "Warning", JOptionPane.WARNING_MESSAGE);
-        }else if(jTextField7.getText() == null || jTextField7.getText().isEmpty()) {
+            return false;
+        }else if(password == null || password.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please enter a password", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
         }else if(jTextField3.getText() == null || jTextField3.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please enter an email", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
         }else if(jTextField5.getText() == null || jTextField5.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please enter a telephone number", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
         }else if(!Pattern.matches("^[A-Za-z]{3,50}$", jTextField1.getText())) {
             JOptionPane.showMessageDialog(null, "Invalid first name", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
         }else if(!Pattern.matches("^[A-Za-z]{3,50}$", jTextField2.getText())) {
             JOptionPane.showMessageDialog(null, "Invalid last name", "Warning", JOptionPane.WARNING_MESSAGE);
-        }else if(!Pattern.matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$%^&*_#+=`~{}':;|<>,.])[A-Za-z\\d@$%^&*_#+=`~{}':;|<>,.]{8,24}$", jTextField7.getText())) {
+            return false;
+        }else if(!Pattern.matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$%^&*_#+=`~{}':;|<>,.])[A-Za-z\\d@$%^&*_#+=`~{}':;|<>,.]{8,24}$", password)) {
             JOptionPane.showMessageDialog(null, "Password must include uppercase, lowercase, digits, special characters, and be 8-24 characters", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
         }else if(!Pattern.matches("^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$", jTextField3.getText())) {
             JOptionPane.showMessageDialog(null, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
         }else if(Pattern.matches("^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$", jTextField3.getText())){
             try {
                     String query = "SELECT eemail FROM employee WHERE eemail = ? ";
@@ -85,7 +99,8 @@ public class Employee extends javax.swing.JPanel {
                     ResultSet result = sql.executeQuery();
 
                     if(result.next()){
-                       JOptionPane.showMessageDialog(null, "These email is already registered", "Warning", JOptionPane.WARNING_MESSAGE); 
+                       JOptionPane.showMessageDialog(null, "These email is already registered", "Warning", JOptionPane.WARNING_MESSAGE);
+                       return false;
                     }
               
             }catch (Exception ex){
@@ -104,6 +119,7 @@ public class Employee extends javax.swing.JPanel {
 
                     if(result.next()){
                        JOptionPane.showMessageDialog(null, "These telephone number is already registered", "Warning", JOptionPane.WARNING_MESSAGE); 
+                       return false;
                     }
               
 
@@ -123,7 +139,8 @@ public class Employee extends javax.swing.JPanel {
                     ResultSet result = sql.executeQuery();
 
                     if(result.next()){
-                       JOptionPane.showMessageDialog(null, "These telephone number is already registered", "Warning", JOptionPane.WARNING_MESSAGE); 
+                       JOptionPane.showMessageDialog(null, "These telephone number is already registered", "Warning", JOptionPane.WARNING_MESSAGE);
+                       return false;
                     }
               
 
@@ -132,13 +149,15 @@ public class Employee extends javax.swing.JPanel {
                  }
               }
         }
+        
+        return true;
     }
     
     
-    public void clean(){
+    public void clean(){      
         jTextField1.setText("");
         jTextField2.setText("");
-        jTextField7.setText("");
+        jPasswordField1.setText("");
         jTextField3.setText("");
         jTextField5.setText("");
         jTextField6.setText("");
@@ -179,8 +198,8 @@ public class Employee extends javax.swing.JPanel {
         search3 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField7 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jPasswordField1 = new javax.swing.JPasswordField();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -301,16 +320,16 @@ public class Employee extends javax.swing.JPanel {
             }
         });
 
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
-            }
-        });
-
         jButton1.setText("Search");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordField1ActionPerformed(evt);
             }
         });
 
@@ -327,14 +346,6 @@ public class Employee extends javax.swing.JPanel {
                                 .addComponent(jLabel2)
                                 .addGap(30, 30, 30)
                                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
@@ -366,7 +377,15 @@ public class Employee extends javax.swing.JPanel {
                                 .addGap(49, 49, 49)
                                 .addComponent(insert)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(delete)))
+                                .addComponent(delete))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jComboBox1, 0, 228, Short.MAX_VALUE)
+                                    .addComponent(jPasswordField1))))
                         .addGap(45, 45, 45)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 719, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -397,7 +416,7 @@ public class Employee extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -433,14 +452,6 @@ public class Employee extends javax.swing.JPanel {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertActionPerformed
-<<<<<<< Updated upstream
-        testemp();
-        
-          try {
-    // INSERTING EMPLOYEE DETAILS
-    String pass = jTextField7.getText();
-    String hash = BCrypt.hashpw(pass, BCrypt.gensalt());
-=======
        if (!testemp()) {
           return;
        }else{
@@ -449,8 +460,6 @@ public class Employee extends javax.swing.JPanel {
             // INSERTING EMPLOYEE DETAILS
             String pass = password;
             String hash = BCrypt.hashpw(pass, BCrypt.gensalt());
->>>>>>> Stashed changes
-
             String query = "INSERT INTO employee(efname, elname, epassword, egender, eemail, etype) VALUES(?, ?, ?, ?, ?, ?)";
             PreparedStatement sql = Connections.connect().prepareStatement(query);
 
@@ -495,40 +504,8 @@ public class Employee extends javax.swing.JPanel {
 
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
         if (search3.getText().isEmpty()) {
-<<<<<<< Updated upstream
             JOptionPane.showMessageDialog(null, "ID needed", "Warning", JOptionPane.WARNING_MESSAGE);
-        }else{
-            testemp();
-            try {
-                String query = "UPDATE employee emp JOIN employee_mobile emob ON emp.eid = emob.e_id SET emp.efname = ?, emp.elname = ?, emp.epassword = ?, emp.egender = ?, emp.eemail = ?, emp.etype = ?, emob.e_id = ?, emob.etel = ?, emob.etel1 = ? WHERE emp.eid = ?";
-                PreparedStatement sql = Connections.connect().prepareStatement(query);
-                
-                sql.setString(1, jTextField1.getText());
-                sql.setString(2, jTextField2.getText());
-                if (!jTextField7.getText().startsWith("$2a$")) { 
-                    String hash = BCrypt.hashpw(jTextField7.toString(), BCrypt.gensalt());
-                    sql.setString(3, hash);
-                }else{
-                    sql.setString(3, jTextField7.getText());
-                }
-                sql.setString(4, jComboBox1.getSelectedItem().toString());
-                sql.setString(5, jTextField3.getText());
-                sql.setString(6, jComboBox2.getSelectedItem().toString());
-                sql.setString(7, search3.getText());
-                sql.setString(8, jTextField5.getText());
-                sql.setString(9, jTextField6.getText());
-                sql.setString(10, search3.getText());
-                
-                sql.executeUpdate();
-                
-            } catch (Exception ex) {
-                 ex.printStackTrace();
-            }
-            clean();
-
-=======
-    JOptionPane.showMessageDialog(null, "ID needed", "Warning", JOptionPane.WARNING_MESSAGE);
-} else {   
+       } else {   
     try {
         String query = "UPDATE employee SET efname = ?, elname = ?, epassword = ?, egender = ?, eemail = ?, etype = ?  WHERE eid = ?";
         PreparedStatement sql = Connections.connect().prepareStatement(query);
@@ -541,7 +518,6 @@ public class Employee extends javax.swing.JPanel {
             sql.setString(3, hash);
         } else {
             sql.setString(3, pass);
->>>>>>> Stashed changes
         }
         sql.setString(4, jComboBox1.getSelectedItem().toString());
         sql.setString(5, jTextField3.getText());
@@ -606,10 +582,6 @@ public class Employee extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField7ActionPerformed
-
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
@@ -644,7 +616,7 @@ public class Employee extends javax.swing.JPanel {
                          
                          jTextField1.setText(result.getString("efname"));
                          jTextField2.setText(result.getString("elname"));
-                         jTextField7.setText(result.getString("epassword"));
+                         jPasswordField1.setText(result.getString("epassword"));
                          jComboBox1.setSelectedItem(result.getString("egender"));
                          jTextField3.setText(result.getString("eemail"));
                          jComboBox2.setSelectedItem(result.getString("etype"));
@@ -662,6 +634,9 @@ public class Employee extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTable1MousePressed
 
+    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton delete;
@@ -679,6 +654,7 @@ public class Employee extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
@@ -686,7 +662,6 @@ public class Employee extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField search3;
     private javax.swing.JButton update;
     // End of variables declaration//GEN-END:variables
