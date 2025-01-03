@@ -58,8 +58,15 @@ public class Supplier extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Please enter an address", "Warning", JOptionPane.WARNING_MESSAGE);
         }else if(tel1.getText() == null || tel1.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please enter an address", "Warning", JOptionPane.WARNING_MESSAGE);
+<<<<<<< Updated upstream
         }else if(!Pattern.matches("^[A-Za-z]{3,50}$", first.getText())) {
             JOptionPane.showMessageDialog(null, "Invalid first name", "Warning", JOptionPane.WARNING_MESSAGE);
+=======
+            return false;
+        }else if(!Pattern.matches("^[A-Za-z\\s]{3,50}$", first.getText())) {
+            JOptionPane.showMessageDialog(null, "Invalid name", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
+>>>>>>> Stashed changes
         }else if(!Pattern.matches("^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$", mail.getText())) {
             JOptionPane.showMessageDialog(null, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
         }else if(Pattern.matches("^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$", mail.getText())){
@@ -127,7 +134,8 @@ public class Supplier extends javax.swing.JPanel {
        mail.setText("");
        location.setText("");
        tel1.setText(""); 
-       tel2.setText("");         
+       tel2.setText(""); 
+       search.setText(""); 
     }
     
     @SuppressWarnings("unchecked")
@@ -336,12 +344,18 @@ public class Supplier extends javax.swing.JPanel {
                             .addComponent(delete)
                             .addComponent(update)))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(378, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertActionPerformed
+<<<<<<< Updated upstream
         testemp();
+=======
+        if (!testemp()) {
+          return;
+        }else{
+>>>>>>> Stashed changes
         try {
             
                 String query = "INSERT INTO supplier(sname, semail, slocation) VALUES(?, ?, ?)";
@@ -373,9 +387,11 @@ public class Supplier extends javax.swing.JPanel {
 
                 sql2.executeUpdate();
                 clean();
+                loaddata();
             } catch (Exception ex) {
                  ex.printStackTrace();
             }
+        }
     }//GEN-LAST:event_insertActionPerformed
 
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
@@ -406,6 +422,7 @@ public class Supplier extends javax.swing.JPanel {
 
                 sql1.executeUpdate();
                 clean();
+                loaddata();
             } catch (Exception ex) {
                  ex.printStackTrace();
             }
@@ -423,14 +440,19 @@ public class Supplier extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "ID needed", "Warning", JOptionPane.WARNING_MESSAGE);
         }else{
             try {
-            
-                String query = "DELETE FROM supplier WHERE sid = ?";
-                PreparedStatement sql = Connections.connect().prepareStatement(query);
+              String query2 = "DELETE FROM supplier_mobile WHERE s_id = ?";
+              PreparedStatement sql2 = Connections.connect().prepareStatement(query2);
+              sql2.setString(1, search.getText());
+              sql2.executeUpdate();
 
-                sql.setString(1, search.getText());
-               
-                sql.executeUpdate();
-                clean();
+    
+              String query1 = "DELETE FROM supplier WHERE sid = ?";
+              PreparedStatement sql1 = Connections.connect().prepareStatement(query1);
+              sql1.setString(1, search.getText());
+              sql1.executeUpdate();
+              
+               clean();
+               loaddata();
             } catch (Exception ex) {
                  ex.printStackTrace();
             }    

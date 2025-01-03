@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import org.mindrot.jbcrypt.BCrypt;
+import javax.swing.SwingUtilities;
 
 
 
@@ -13,7 +14,12 @@ public class Login extends javax.swing.JPanel {
   public Login() {
         initComponents();
     }
-
+  
+  public class cash{
+     public static String cashierer = "";
+     public static String admin = "";
+  }
+  
    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -113,6 +119,13 @@ public class Login extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+<<<<<<< Updated upstream
+=======
+        
+        char[] passarray = jPasswordField1.getPassword();
+        String password = new String(passarray);
+        
+>>>>>>> Stashed changes
         if (jTextField1.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please enter your email");     
         }else if (jTextField2.getText().isEmpty()) {
@@ -121,7 +134,7 @@ public class Login extends javax.swing.JPanel {
         
             try {
 
-               String query = "SELECT epassword,etype FROM employee WHERE eemail = ?";
+               String query = "SELECT epassword,etype,efname,elname FROM employee WHERE eemail = ?";
                PreparedStatement sql = Connections.connect().prepareStatement(query);
 
                sql.setString(1, jTextField1.getText());
@@ -131,14 +144,26 @@ public class Login extends javax.swing.JPanel {
                if(rs.next()) {
                   if(BCrypt.checkpw(jTextField2.getText(), rs.getString("epassword"))){
                     if("Administrator".equals(rs.getString("etype"))){
+                        String fname = rs.getString("efname");
+                        String lname = rs.getString("elname");
+                        
+                        cash.admin = fname + " "  + lname;
                         Admin_Dashboard admin = new Admin_Dashboard();
-                        admin.setSize(915, 820);
+                        admin.setTitle("Super Mart");
+                        admin.setSize(802, 425);
                         admin.setVisible(true);
+                        ((JFrame) SwingUtilities.getWindowAncestor(this)).dispose();
+                        
                     }else{
+                        cash.cashierer = rs.getString("efname");
                         Cashier_Dashboard cashier = new Cashier_Dashboard();
+                        
+                        cashier.setTitle("Super Mart");
                         cashier.setSize(906, 694);
-                        cashier.setVisible(true);
+                        cashier.setVisible(true); 
+                        ((JFrame) SwingUtilities.getWindowAncestor(this)).dispose();
                     }
+
                   }else{
                      JOptionPane.showMessageDialog(null, "Invalid email or password. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
                   }  
