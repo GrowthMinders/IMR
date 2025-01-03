@@ -1,6 +1,7 @@
 package pos;
 
 import javax.swing.JFrame;
+import pos.Login.cash;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -18,6 +19,7 @@ public class Admin_Dashboard extends javax.swing.JFrame {
      */
     public Admin_Dashboard() {
         initComponents();
+        jLabel1.setText("Welcome " + cash.admin);
     }
 
     /**
@@ -35,6 +37,7 @@ public class Admin_Dashboard extends javax.swing.JFrame {
         btnEmp = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -98,6 +101,9 @@ public class Admin_Dashboard extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -105,33 +111,42 @@ public class Admin_Dashboard extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(38, 38, 38)
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(43, 43, 43)
+                        .addComponent(btnReport, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnProducts, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(btnProducts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnReport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(661, Short.MAX_VALUE))
+                    .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(37, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(92, 92, 92))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
-                .addComponent(btnProducts)
-                .addGap(44, 44, 44)
-                .addComponent(jButton1)
-                .addGap(38, 38, 38)
-                .addComponent(btnEmp)
-                .addGap(36, 36, 36)
-                .addComponent(btnReport)
-                .addGap(37, 37, 37)
-                .addComponent(btnLogout)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnProducts, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(59, 59, 59)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnReport, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37))
         );
 
         pack();
@@ -147,14 +162,14 @@ public class Admin_Dashboard extends javax.swing.JFrame {
         frame.add(emp);
 
         // Set size and make it visible
-        frame.setSize(663, 721); // Adjust size as needed
+        frame.setSize(1188, 587); // Adjust size as needed
         frame.setVisible(true);
     }//GEN-LAST:event_btnEmpActionPerformed
 
     private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
         JFrame frame = new JFrame("Super Mart");
 
-        // Create an instance of your JPanel
+        // Create an instance of your JPanel  (To be done)
         Report rep = new Report();
         
         // Add the JPanel to the JFrame
@@ -176,7 +191,7 @@ public class Admin_Dashboard extends javax.swing.JFrame {
         frame.add(pro);
 
         // Set size and make it visible
-        frame.setSize(663, 721); // Adjust size as needed
+        frame.setSize(1250, 721); // Adjust size as needed
         frame.setVisible(true);
     }//GEN-LAST:event_btnProductsActionPerformed
 
@@ -190,12 +205,25 @@ public class Admin_Dashboard extends javax.swing.JFrame {
         frame.add(disc);
 
         // Set size and make it visible
-        frame.setSize(663, 721); // Adjust size as needed
+        frame.setSize(1040, 937); // Adjust size as needed
         frame.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
-        // logout
+        JFrame frame = new JFrame("Super Mart");
+
+        // Create an instance of your JPanel
+        Login log = new Login();
+        
+        // Add the JPanel to the JFrame
+        frame.add(log);
+
+        // Set size and make it visible
+        frame.setSize(672, 430); // Adjust size as needed
+
+        frame.setVisible(true);
+        cash.admin = "";
+        this.dispose();
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -208,7 +236,7 @@ public class Admin_Dashboard extends javax.swing.JFrame {
         frame.add(sup);
 
         // Set size and make it visible
-        frame.setSize(952, 948); // Adjust size as needed
+        frame.setSize(952, 622); // Adjust size as needed
         frame.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -255,6 +283,7 @@ public class Admin_Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnReport;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
 }

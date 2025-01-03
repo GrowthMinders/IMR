@@ -82,66 +82,68 @@ public class Discount extends javax.swing.JPanel {
    
     
     public boolean disctester(){
-        if(name.getText() == null || name.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Please enter a prodct name", "Warning", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }else if(sdate.getText() == null || sdate.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Please enter a start date for the discount", "Warning", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }else if(edate.getText() == null || edate.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Please enter a end date for the discount", "Warning", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }else if(aproduct.getText() == null || aproduct.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Please a product to apply the discount", "Warning", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }else if(amount.getText() == null || amount.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Please enter discount amount", "Warning", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }else if(!Pattern.matches("^[A-Za-z]{15,50}$", name.getText())) {
-            JOptionPane.showMessageDialog(null, "Invalid discount number", "Warning", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }else if(!Pattern.matches("^[0-9]{2}/[0-9]{2}/[0-9]{4}$", sdate.getText())) {
-            JOptionPane.showMessageDialog(null, "Invalid discount start date, should be(DD/MM/YYYY)", "Warning", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }else if(!Pattern.matches("^[0-9]{2}/[0-9]{2}/[0-9]{4}$", edate.getText())) {
-            JOptionPane.showMessageDialog(null, "Invalid discount end date, should be(DD/MM/YYYY)", "Warning", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }else if(!Pattern.matches("^[A-Za-z]$", aproduct.getText())){
-            JOptionPane.showMessageDialog(null, "Enter product ID refering the table to retrieve product name", "Warning", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }else if(!Pattern.matches("^[0-9]$", amount.getText())) {
-            JOptionPane.showMessageDialog(null, "Invalid discount end date, should be(DD/MM/YYYY)", "Warning", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }else{
-           try {
-                String query = "SELECT pname FROM product";
-                PreparedStatement sql = Connections.connect().prepareStatement(query);
+       if(name.getText() == null || name.getText().isEmpty()){
+          JOptionPane.showMessageDialog(null, "Please enter a product name", "Warning", JOptionPane.WARNING_MESSAGE);
+          return false;
+       }else if(sdate.getText() == null || sdate.getText().isEmpty()){
+          JOptionPane.showMessageDialog(null, "Please enter a start date for the discount", "Warning", JOptionPane.WARNING_MESSAGE);
+          return false;
+       }else if(edate.getText() == null || edate.getText().isEmpty()){
+          JOptionPane.showMessageDialog(null, "Please enter an end date for the discount", "Warning", JOptionPane.WARNING_MESSAGE);
+          return false;
+       }else if(aproduct.getText() == null || aproduct.getText().isEmpty()){
+          JOptionPane.showMessageDialog(null, "Please enter a product ID to apply the discount", "Warning", JOptionPane.WARNING_MESSAGE);
+          return false;
+       }else if(amount.getText() == null || amount.getText().isEmpty()){
+          JOptionPane.showMessageDialog(null, "Please enter a discount amount", "Warning", JOptionPane.WARNING_MESSAGE);
+          return false;
+       }else if(!Pattern.matches("^[A-Za-z\\s]+$", name.getText())) {
+          JOptionPane.showMessageDialog(null, "Invalid discount name", "Warning", JOptionPane.WARNING_MESSAGE);
+          return false;
+       }else if(!Pattern.matches("^[0-9]{2}/[0-9]{2}/[0-9]{4}$", sdate.getText())) {
+          JOptionPane.showMessageDialog(null, "Invalid discount start date, should be(DD/MM/YYYY)", "Warning", JOptionPane.WARNING_MESSAGE);
+          return false;
+       }else if(!Pattern.matches("^[0-9]{2}/[0-9]{2}/[0-9]{4}$", edate.getText())) {
+          JOptionPane.showMessageDialog(null, "Invalid discount end date, should be(DD/MM/YYYY)", "Warning", JOptionPane.WARNING_MESSAGE);
+          return false;
+       }else if(!Pattern.matches("^(?=.*[A-Za-z])[A-Za-z0-9\\s]+$", aproduct.getText())){
+          JOptionPane.showMessageDialog(null, "Enter a valid product ID referring to the table to retrieve product name", "Warning", JOptionPane.WARNING_MESSAGE);
+          return false;
+       }else if(!Pattern.matches("^[0-9]+$", amount.getText())) {  // Allowing multiple digits
+          JOptionPane.showMessageDialog(null, "Invalid discount amount, should be a numeric value", "Warning", JOptionPane.WARNING_MESSAGE);
+          return false;
+      }else{
+        // Checking if the product ID exists in the database
+        try {
+            String query = "SELECT pname FROM product WHERE pname = ?";
+            PreparedStatement sql = Connections.connect().prepareStatement(query);
+            sql.setString(1, aproduct.getText());  // Compare with entered product ID
 
-                ResultSet result = sql.executeQuery();
-
+            ResultSet result = sql.executeQuery();
             
-                while (result.next()) {
-                   if(!aproduct.toString().equals(result.getString("pname"))){
-                       JOptionPane.showMessageDialog(null, "Product name not found", "Warning", JOptionPane.WARNING_MESSAGE);
-                       return false;
-                   }
-                }
+            // Check if any result was found for the product name
+            if (!result.next()) {
+                JOptionPane.showMessageDialog(null, "Product name not found", "Warning", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
 
-            } catch (Exception ex) {
-                 ex.printStackTrace();
-            } 
-        } 
-        
-        return true;
-                
-    }
-    
+            result.close();
+            sql.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+      }
+
+    return true;
+}
     public void clean(){
         name.setText("");
         sdate.setText("");
         edate.setText("");
         aproduct.setText("");
         amount.setText("");
+        searchbox1.setText("");
     }
    
     
@@ -257,7 +259,16 @@ public class Discount extends javax.swing.JPanel {
         jLabel12.setText("Eligible customers :");
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel9.setText("Applicable product :");
+        jLabel9.setText("Applicable product id :");
+        jLabel9.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jLabel9AncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
         aproduct.setToolTipText("Search Products");
         aproduct.addActionListener(new java.awt.event.ActionListener() {
@@ -317,62 +328,66 @@ public class Discount extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(277, 277, 277)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
+                        .addContainerGap()
+                        .addComponent(jScrollPane2))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(2, 2, 2)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 825, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(sdate, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(91, 91, 91)
-                                            .addComponent(edate))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                            .addGap(2, 2, 2)
-                                            .addComponent(addbtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(102, 102, 102)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(updatebtn)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
-                                                    .addComponent(deletebtn))
-                                                .addComponent(amount)))
-                                        .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(8, 8, 8)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGap(18, 18, 18)
-                                                    .addComponent(aproduct, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(jButton2))
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(8, 8, 8)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel12)
+                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addGroup(layout.createSequentialGroup()
-                                                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                            .addGap(18, 18, 18)
-                                                            .addComponent(searchbox1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addGroup(layout.createSequentialGroup()
-                                                            .addComponent(jLabel12)
-                                                            .addGap(28, 28, 28)
-                                                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                    .addGap(0, 0, Short.MAX_VALUE)))))
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(277, 277, 277)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                            .addGap(131, 131, 131)
+                                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                .addGroup(layout.createSequentialGroup()
+                                                                    .addComponent(searchbox1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(sdate, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(edate, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGroup(layout.createSequentialGroup()
+                                                                    .addComponent(aproduct, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                    .addComponent(jButton2))))
+                                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                            .addComponent(amount, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 487, Short.MAX_VALUE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(82, 82, 82)
+                                .addComponent(addbtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(86, 86, 86)
+                                .addComponent(updatebtn)
+                                .addGap(97, 97, 97)
+                                .addComponent(deletebtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(13, 13, 13))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -404,12 +419,10 @@ public class Discount extends javax.swing.JPanel {
                             .addComponent(aproduct, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(9, 9, 9)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(5, 5, 5)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(17, 17, 17)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(amount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -436,9 +449,8 @@ public class Discount extends javax.swing.JPanel {
     private void addbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addbtnActionPerformed
       if (!disctester()) {
           return;
-      }
-      
-      try {
+      }else{
+            try {
             
                 String query = "INSERT INTO discount(dname, dstartdate, denddate, dproduct, dcusteli, dvalue) VALUES(?, ?, ?, ?, ?, ?)";
                 PreparedStatement sql = Connections.connect().prepareStatement(query);
@@ -452,9 +464,11 @@ public class Discount extends javax.swing.JPanel {
                
                 sql.executeUpdate();
                 clean();
+                loaddata();
             } catch (Exception ex) {
                  ex.printStackTrace();
             }
+      }
     }//GEN-LAST:event_addbtnActionPerformed
 
     private void updatebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updatebtnActionPerformed
@@ -465,8 +479,7 @@ public class Discount extends javax.swing.JPanel {
           return;
         }
         try {
-            
-                String query = "UPDATE discount SET dname = ?, dstartdate = ?, denddate = ?, dproduct = ?, dcusteli = ?, dvalue = ? WHERE sid = ?";
+                String query = "UPDATE discount SET dname = ?, dstartdate = ?, denddate = ?, dproduct = ?, dcusteli = ?, dvalue = ? WHERE did = ?";
                 PreparedStatement sql = Connections.connect().prepareStatement(query);
 
                 sql.setString(1, name.getText());
@@ -480,6 +493,7 @@ public class Discount extends javax.swing.JPanel {
                 sql.executeUpdate();
                 
                 clean();
+                loaddata();
             } catch (Exception ex) {
                  ex.printStackTrace();
             }
@@ -491,8 +505,7 @@ public class Discount extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(null, "ID needed", "Warning", JOptionPane.WARNING_MESSAGE);  
       }else{
         try {
-            
-                String query = "DELETE FROM discount WHERE sid = ?";
+                String query = "DELETE FROM discount WHERE did = ?";
                 PreparedStatement sql = Connections.connect().prepareStatement(query);
 
                 sql.setString(1, searchbox1.getText());
@@ -500,6 +513,7 @@ public class Discount extends javax.swing.JPanel {
                 sql.executeUpdate();
                 
                 clean();
+                loaddata();
             } catch (Exception ex) {
                  ex.printStackTrace();
             }     
@@ -536,13 +550,12 @@ public class Discount extends javax.swing.JPanel {
                 ResultSet result = sql.executeQuery();
 
                 while (result.next()) {
-                   
-                         name.setText(result.getString("sname"));
-                         sdate.setText(result.getString("semail"));
-                         edate.setText(result.getString("slocation"));
-                         aproduct.setText(result.getString("stel"));
-                         jComboBox1.setSelectedItem(result.getString("stel1")); 
-                         amount.setText(result.getString("stel1")); 
+                         name.setText(result.getString("dname"));
+                         sdate.setText(result.getString("dstartdate"));
+                         edate.setText(result.getString("denddate"));
+                         aproduct.setText(result.getString("dproduct"));
+                         jComboBox1.setSelectedItem(result.getString("dcusteli")); 
+                         amount.setText(result.getString("dvalue")); 
               
                 }
                 
@@ -567,6 +580,7 @@ public class Discount extends javax.swing.JPanel {
 
                 while (result.next()) {
                     aproduct.setText("");
+                    jLabel9.setText("Applicable product:");
                     aproduct.setText(result.getString("pname"));
                 }
                 
@@ -575,6 +589,11 @@ public class Discount extends javax.swing.JPanel {
             }
         }    
     }//GEN-LAST:event_jButton2ActionPerformed
+
+
+    private void jLabel9AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel9AncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel9AncestorAdded
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

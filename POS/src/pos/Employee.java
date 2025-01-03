@@ -454,49 +454,50 @@ public class Employee extends javax.swing.JPanel {
     private void insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertActionPerformed
        if (!testemp()) {
           return;
-       }
+       }else{
         
           try {
-    // INSERTING EMPLOYEE DETAILS
-    String pass = password;
-    String hash = BCrypt.hashpw(pass, BCrypt.gensalt());
+            // INSERTING EMPLOYEE DETAILS
+            String pass = password;
+            String hash = BCrypt.hashpw(pass, BCrypt.gensalt());
+            String query = "INSERT INTO employee(efname, elname, epassword, egender, eemail, etype) VALUES(?, ?, ?, ?, ?, ?)";
+            PreparedStatement sql = Connections.connect().prepareStatement(query);
 
-    String query = "INSERT INTO employee(efname, elname, epassword, egender, eemail, etype) VALUES(?, ?, ?, ?, ?, ?)";
-    PreparedStatement sql = Connections.connect().prepareStatement(query);
+            sql.setString(1, jTextField1.getText());
+            sql.setString(2, jTextField2.getText());
+            sql.setString(3, hash);
+            sql.setString(4, jComboBox1.getSelectedItem().toString());
+            sql.setString(5, jTextField3.getText());
+            sql.setString(6, jComboBox2.getSelectedItem().toString());
 
-    sql.setString(1, jTextField1.getText());
-    sql.setString(2, jTextField2.getText());
-    sql.setString(3, hash);
-    sql.setString(4, jComboBox1.getSelectedItem().toString());
-    sql.setString(5, jTextField3.getText());
-    sql.setString(6, jComboBox2.getSelectedItem().toString());
+            sql.executeUpdate();
 
-    sql.executeUpdate();
+            // GETTING THE ID TO INSERT TELEPHONE NUMBER
+            String query1 = "SELECT eid FROM employee WHERE eemail = ?";
+            PreparedStatement sql1 = Connections.connect().prepareStatement(query1);
+            sql1.setString(1, jTextField3.getText());
 
-    // GETTING THE ID TO INSERT TELEPHONE NUMBER
-    String query1 = "SELECT eid FROM employee WHERE eemail = ?";
-    PreparedStatement sql1 = Connections.connect().prepareStatement(query1);
-    sql1.setString(1, jTextField3.getText());
+            ResultSet result = sql1.executeQuery();
+            String id = "";
+            if (result.next()) {
+               id = result.getString("eid");
+            }
 
-    ResultSet result = sql1.executeQuery();
-    String id = "";
-    if (result.next()) {
-        id = result.getString("eid");
-    }
+            // INSERTING TELEPHONE NUMBER
+            String query2 = "INSERT INTO employee_mobile(e_id, etel, etel1) VALUES(?, ?, ?)";
+            PreparedStatement sql2 = Connections.connect().prepareStatement(query2);
 
-    // INSERTING TELEPHONE NUMBER
-    String query2 = "INSERT INTO employee_mobile(e_id, etel, etel1) VALUES(?, ?, ?)";
-    PreparedStatement sql2 = Connections.connect().prepareStatement(query2);
+            sql2.setString(1, id);
+            sql2.setString(2, jTextField5.getText());
+            sql2.setString(3, jTextField6.getText());
 
-    sql2.setString(1, id);
-    sql2.setString(2, jTextField5.getText());
-    sql2.setString(3, jTextField6.getText());
-
-    sql2.executeUpdate();
-
-} catch (Exception ex) {
-    ex.printStackTrace();
-}
+            sql2.executeUpdate();
+            clean();
+            loaddata();
+          } catch (Exception ex) {
+               ex.printStackTrace();
+          }
+       }    
 
            
     }//GEN-LAST:event_insertActionPerformed
@@ -504,38 +505,42 @@ public class Employee extends javax.swing.JPanel {
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
         if (search3.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "ID needed", "Warning", JOptionPane.WARNING_MESSAGE);
-        }else{
-            if (!testemp()) {
-               return;
-            }    
-            try {
-                String query = "UPDATE employee emp JOIN employee_mobile emob ON emp.eid = emob.e_id SET emp.efname = ?, emp.elname = ?, emp.epassword = ?, emp.egender = ?, emp.eemail = ?, emp.etype = ?, emob.e_id = ?, emob.etel = ?, emob.etel1 = ? WHERE emp.eid = ?";
-                PreparedStatement sql = Connections.connect().prepareStatement(query);
-                
-                sql.setString(1, jTextField1.getText());
-                sql.setString(2, jTextField2.getText());
-                if (!password.startsWith("$2a$")) { 
-                    String hash = BCrypt.hashpw(password, BCrypt.gensalt());
-                    sql.setString(3, hash);
-                }else{
-                    sql.setString(3, password);
-                }
-                sql.setString(4, jComboBox1.getSelectedItem().toString());
-                sql.setString(5, jTextField3.getText());
-                sql.setString(6, jComboBox2.getSelectedItem().toString());
-                sql.setString(7, search3.getText());
-                sql.setString(8, jTextField5.getText());
-                sql.setString(9, jTextField6.getText());
-                sql.setString(10, search3.getText());
-                
-                sql.executeUpdate();
-                
-            } catch (Exception ex) {
-                 ex.printStackTrace();
-            }
-            clean();
-
+       } else {   
+    try {
+        String query = "UPDATE employee SET efname = ?, elname = ?, epassword = ?, egender = ?, eemail = ?, etype = ?  WHERE eid = ?";
+        PreparedStatement sql = Connections.connect().prepareStatement(query);
+        
+        sql.setString(1, jTextField1.getText());
+        sql.setString(2, jTextField2.getText());
+        String pass = jPasswordField1.getText();
+        if (!pass.startsWith("$2a$")) { 
+            String hash = BCrypt.hashpw(pass, BCrypt.gensalt());
+            sql.setString(3, hash);
+        } else {
+            sql.setString(3, pass);
         }
+        sql.setString(4, jComboBox1.getSelectedItem().toString());
+        sql.setString(5, jTextField3.getText());
+        sql.setString(6, jComboBox2.getSelectedItem().toString());
+        sql.setString(7, search3.getText());
+        sql.executeUpdate();
+        
+        String query1 = "UPDATE employee_mobile SET etel = ?, etel1 = ?  WHERE e_id = (SELECT eid FROM employee WHERE eemail = ?)";
+        PreparedStatement sql1 = Connections.connect().prepareStatement(query1);
+        
+        sql1.setString(1, jTextField5.getText());
+        sql1.setString(2, jTextField6.getText());
+        sql1.setString(3, jTextField3.getText());
+        sql1.executeUpdate();
+        
+        clean();
+        loaddata();
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+    clean();
+}
+
         
     }//GEN-LAST:event_updateActionPerformed
 
@@ -544,18 +549,24 @@ public class Employee extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "ID needed", "Warning", JOptionPane.WARNING_MESSAGE);
         }else{
             try {
-                String query = "DELETE FROM employee WHERE eid = ?";
-                PreparedStatement sql = Connections.connect().prepareStatement(query);
-                sql.setString(1, search3.getText());
                 
-                String query1 = "DELETE FROM employee_mobile WHERE e_id = ?";
-                PreparedStatement sql1 = Connections.connect().prepareStatement(query1);
-                sql1.setString(1, search3.getText());
+               String query2 = "DELETE FROM employee_mobile WHERE e_id = ?";
+               PreparedStatement sql2 = Connections.connect().prepareStatement(query2);
+               sql2.setString(1, search3.getText());
+               sql2.executeUpdate();
                 
-                clean();
+                
+               String query1 = "DELETE FROM employee WHERE eid = ?";
+               PreparedStatement sql1 = Connections.connect().prepareStatement(query1);
+               sql1.setString(1, search3.getText());
+               sql1.executeUpdate();
+
+               clean();
+               loaddata();
             } catch (Exception ex) {
                  ex.printStackTrace();
             }
+
         }
     }//GEN-LAST:event_deleteActionPerformed
 

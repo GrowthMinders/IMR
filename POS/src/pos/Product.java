@@ -95,13 +95,13 @@ public class Product extends javax.swing.JPanel {
        }else if(txtExpiry.getText() == null || txtExpiry.getText().isEmpty()) {
            JOptionPane.showMessageDialog(null, "Please enter product expiry date", "Warning", JOptionPane.WARNING_MESSAGE);
            return false;
-       }else if(!Pattern.matches("^[0-9]$", txtQty.getText())) {
+       }else if(!Pattern.matches("^[0-9]+$", txtQty.getText())) {
             JOptionPane.showMessageDialog(null, "Invalid quantity", "Warning", JOptionPane.WARNING_MESSAGE);
             return false;
-       }else if(!Pattern.matches("^[0-9]$", txtPrice.getText())) {
+       }else if(!Pattern.matches("^[0-9]+$", txtPrice.getText())) {
             JOptionPane.showMessageDialog(null, "Invalid price", "Warning", JOptionPane.WARNING_MESSAGE);
             return false;
-       }else if(!Pattern.matches("^[A-Aa-z]$", txtCategory.getText())) {
+       }else if(!Pattern.matches("^[A-Za-z\\s]+$", txtCategory.getText())) {
             JOptionPane.showMessageDialog(null, "Invalid category", "Warning", JOptionPane.WARNING_MESSAGE);
             return false;
        }else if(!Pattern.matches("^[0-9]{2}/[0-9]{2}/[0-9]{4}$", txtExpiry.getText())) {
@@ -368,6 +368,7 @@ public class Product extends javax.swing.JPanel {
                 
                 sql.executeUpdate();
                 clean();
+                loaddata();
             } catch (Exception ex) {
                  ex.printStackTrace();
             }
@@ -379,8 +380,8 @@ public class Product extends javax.swing.JPanel {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         if (!testpro()) {
           return;
-        }
-        try {
+        }else{
+            try {
                 String query = "INSERT INTO product (pname, pstock, price, pcategory, pbatchno, pexpiry, psupply) VALUES(?,?,?,?,?,?,?)";
                 PreparedStatement sql = Connections.connect().prepareStatement(query);
                 
@@ -395,9 +396,11 @@ public class Product extends javax.swing.JPanel {
                 
                 sql.executeUpdate();
                 clean();
+                loaddata();
             } catch (Exception ex) {
                  ex.printStackTrace();
             }
+        }    
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -412,6 +415,7 @@ public class Product extends javax.swing.JPanel {
 
                 sql.executeUpdate();
                 clean();
+                loaddata();
             } catch (Exception ex) {
                  ex.printStackTrace();
             }

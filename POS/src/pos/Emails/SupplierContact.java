@@ -5,6 +5,7 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
 import java.util.Properties;
+import pos.Login;
 
 public class SupplierContact {
 
@@ -12,9 +13,11 @@ public class SupplierContact {
     private static final String SMTP_PORT = "587";
     private static final String SENDER_EMAIL = "supun200202@gmail.com";
     private static final String SENDER_PASSWORD = "your_app_password"; // Use a secure method to store this
-    private static final String RECEIVER_EMAIL = "123@gmail.com";
+    private static final String RECEIVER_EMAIL = "navindusathsarachamikara@gmail.com";
 
-    public void sendEmail(String movieDate, String movieTime, String movieName, String bookedSeats, double unitPrice, int totalSeats) {
+    public void sendEmail() {
+        String name = Login.cash.cashierer;
+        String url = "https://drive.google.com/uc?export=view&id=1jqX_Gs4nZE_FyFhoaMq995xDcic7hMNp";
         Properties properties = new Properties();
         properties.put("mail.smtp.host", SMTP_HOST);
         properties.put("mail.smtp.port", SMTP_PORT);
@@ -32,7 +35,7 @@ public class SupplierContact {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(SENDER_EMAIL));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(RECEIVER_EMAIL));
-            message.setSubject("Receipt of Ticket Purchase Approval");
+            message.setSubject("Enquery Clarification");
 
             String content = "<!DOCTYPE html>" +
                     "<html lang=\"en\">" +
@@ -51,22 +54,11 @@ public class SupplierContact {
                     "</head>" +
                     "<body>" +
                     "<div class=\"booking-summary\">" +
-                    "<h2 class=\"summary-title\">BOOKING SUMMARY</h2>" +
+                    "<h2 class=\"summary-title\">Requesting Assistance</h2>" +
                     "<div class=\"ticket-details\">" +
-                    "<p><strong>Movie Date:</strong> " + movieDate + "</p>" +
-                    "<p><strong>Movie Time:</strong> " + movieTime + "</p>" +
-                    "<p><strong>Movie Name:</strong> " + movieName + "</p>" +
-                    "<p><strong>Seats Booked:</strong> " + bookedSeats + "</p>" +
+                    "<p><strong>" + name +" "+ "needs your help please assist him or her as soon as possible <br>~ Thank you ~"+"</strong></p>" +
                     "</div>" +
-                    "<div class=\"pricing\">" +
-                    "<div class=\"row\">" +
-                    "<span><strong>Unit Price:</strong></span>" +
-                    "<span>Rs. " + unitPrice + "/=</span>" +
-                    "</div>" +
-                    "</div>" +
-                    "<div class=\"total\">" +
-                    "<p><strong>Total Price:</strong> Rs. " + (unitPrice * totalSeats) + "/=</p>" +
-                    "</div>" +
+                    "<img src=\"" + url + "\" alt=\"Brand Logo\">" +
                     "</div>" +
                     "</body>" +
                     "</html>";

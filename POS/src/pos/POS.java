@@ -10,7 +10,7 @@ public class POS {
         JPanel panel = new Login();
 
         // Set up the frame
-        frame.setSize(672, 410);
+        frame.setSize(672, 430);
 
         // Add the panel to the frame
         frame.add(panel);
