@@ -1,6 +1,8 @@
 package pos;
 
 import javax.swing.JFrame;
+import java.sql.CallableStatement;
+import java.sql.Types;
 import pos.Login.cash;
 
 /*
@@ -19,9 +21,98 @@ public class Admin_Dashboard extends javax.swing.JFrame {
      */
     public Admin_Dashboard() {
         initComponents();
+        counter();
         jLabel1.setText("Welcome " + cash.admin);
     }
 
+    
+   private void counter() {
+       //Supplier Count
+    try {
+        String query = "{? = CALL Getsuppliercount()}"; 
+
+        // Prepare the CallableStatement
+        CallableStatement sql = Connections.connect().prepareCall(query);
+
+        // Register the output parameter (the return value of the function)
+        sql.registerOutParameter(1, Types.INTEGER);
+
+        // Execute the function
+        sql.execute();
+
+        // Retrieve the result
+        int result = sql.getInt(1);
+        jButton2.setText("Suppliers " + "(" + result + ")");
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    
+    //Product Count
+    try {
+        String query = "{? = CALL Getproductcount()}"; 
+
+        // Prepare the CallableStatement
+        CallableStatement sql = Connections.connect().prepareCall(query);
+
+        // Register the output parameter (the return value of the function)
+        sql.registerOutParameter(1, Types.INTEGER);
+
+        // Execute the function
+        sql.execute();
+
+        // Retrieve the result
+        int result = sql.getInt(1);
+        btnProducts.setText("Products " + "(" + result + ")");
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    
+    //Discounts Count
+    try {
+        String query = "{? = CALL Getdiscountcount()}"; 
+
+        // Prepare the CallableStatement
+        CallableStatement sql = Connections.connect().prepareCall(query);
+
+        // Register the output parameter (the return value of the function)
+        sql.registerOutParameter(1, Types.INTEGER);
+
+        // Execute the function
+        sql.execute();
+
+        // Retrieve the result
+        int result = sql.getInt(1);
+        jButton1.setText("Discounts " + "(" + result + ")");
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    
+    //Employee Count
+    try {
+        String query = "{? = CALL Getemployeecount()}"; 
+
+        // Prepare the CallableStatement
+        CallableStatement sql = Connections.connect().prepareCall(query);
+
+        // Register the output parameter (the return value of the function)
+        sql.registerOutParameter(1, Types.INTEGER);
+
+        // Execute the function
+        sql.execute();
+
+        // Retrieve the result
+        int result = sql.getInt(1);
+        btnEmp.setText("Employees " + "(" + result + ")");
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -176,7 +267,7 @@ public class Admin_Dashboard extends javax.swing.JFrame {
         frame.add(rep);
 
         // Set size and make it visible
-        frame.setSize(959, 319); // Adjust size as needed
+        frame.setSize(320, 382); // Adjust size as needed
         frame.setVisible(true);
 
     }//GEN-LAST:event_btnReportActionPerformed

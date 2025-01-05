@@ -1,8 +1,10 @@
 package pos;
+import java.sql.CallableStatement;
 import javax.swing.JOptionPane;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import javax.swing.JFrame;
 import org.mindrot.jbcrypt.BCrypt;
 import javax.swing.SwingUtilities;
@@ -130,7 +132,7 @@ public class Login extends javax.swing.JPanel {
         
             try {
 
-               String query = "SELECT epassword,etype,efname,elname FROM employee WHERE eemail = ?";
+               String query = "SELECT eid, epassword,etype,efname,elname FROM employee WHERE eemail = ?";
                PreparedStatement sql = Connections.connect().prepareStatement(query);
 
                sql.setString(1, jTextField1.getText());
@@ -159,7 +161,6 @@ public class Login extends javax.swing.JPanel {
                         cashier.setVisible(true); 
                         ((JFrame) SwingUtilities.getWindowAncestor(this)).dispose();
                     }
-
                   }else{
                      JOptionPane.showMessageDialog(null, "Invalid email or password. Try again.", "Error", JOptionPane.ERROR_MESSAGE);
                   }  

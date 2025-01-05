@@ -6,7 +6,7 @@ package pos;
 
 import pos.Emails.ITContact;
 import pos.Emails.ManagerContact;
-import pos.Emails.WarehouseContact;
+import pos.Emails.SupplierContact;
 
 /**
  *
@@ -101,7 +101,7 @@ public class Support extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        WarehouseContact ware = new WarehouseContact();
+        SupplierContact ware = new SupplierContact();
         ware.sendEmail();
     }//GEN-LAST:event_jButton2ActionPerformed
 
