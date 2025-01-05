@@ -447,9 +447,6 @@ public class Discount extends javax.swing.JPanel {
     }//GEN-LAST:event_dtableKeyReleased
 
     private void addbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addbtnActionPerformed
-      if (!disctester()) {
-          return;
-      }else{
             try {
             
                 String query = "INSERT INTO discount(dname, dstartdate, denddate, dproduct, dcusteli, dvalue) VALUES(?, ?, ?, ?, ?, ?)";
@@ -468,16 +465,12 @@ public class Discount extends javax.swing.JPanel {
             } catch (Exception ex) {
                  ex.printStackTrace();
             }
-      }
     }//GEN-LAST:event_addbtnActionPerformed
 
     private void updatebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updatebtnActionPerformed
       if(searchbox1.getText().isEmpty()){
         JOptionPane.showMessageDialog(null, "ID needed", "Warning", JOptionPane.WARNING_MESSAGE);  
       }else{
-        if (!disctester()) {
-          return;
-        }
         try {
                 String query = "UPDATE discount SET dname = ?, dstartdate = ?, denddate = ?, dproduct = ?, dcusteli = ?, dvalue = ? WHERE did = ?";
                 PreparedStatement sql = Connections.connect().prepareStatement(query);
@@ -567,7 +560,7 @@ public class Discount extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if(aproduct.getText() == null || aproduct.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Please enter a product ID", "Warning", JOptionPane.WARNING_MESSAGE);
-        }else if(!Pattern.matches("^[0-9]$", aproduct.getText())) {
+        }else if(!Pattern.matches("^[0-9]+$", aproduct.getText())) {
             JOptionPane.showMessageDialog(null, "Invalid product ID", "Warning", JOptionPane.WARNING_MESSAGE);
         }else{
             try {

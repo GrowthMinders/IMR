@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import java.util.regex.Pattern;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 /**
  *
  * @author Supun
@@ -156,7 +157,7 @@ public class Product extends javax.swing.JPanel {
         comSupplier = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         txtCategory = new javax.swing.JTextField();
-
+        jButton1 = new javax.swing.JButton();
 
         txtSearchID.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
@@ -168,11 +169,9 @@ public class Product extends javax.swing.JPanel {
         });
 
         label3.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
-
         label3.setText("Batch No:");
 
         btnSave.setText("Insert");
-
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
@@ -240,6 +239,13 @@ public class Product extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
         jLabel3.setText("Category:");
 
+        jButton1.setText("Re-Order Quantity");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -293,13 +299,17 @@ public class Product extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(391, 391, 391))
+                .addGap(261, 261, 261)
+                .addComponent(jButton1)
+                .addGap(55, 55, 55))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(13, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -447,6 +457,21 @@ public class Product extends javax.swing.JPanel {
             }
     }//GEN-LAST:event_btnSearchActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        JFrame frame = new JFrame("Super Mart");
+
+        // Create an instance of your JPanel
+        Reorder order = new Reorder();
+        
+        // Add the JPanel to the JFrame
+        frame.add(order);
+
+        // Set size and make it visible
+        frame.setSize(627, 747); // Adjust size as needed
+        frame.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;
@@ -454,6 +479,7 @@ public class Product extends javax.swing.JPanel {
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSearch;
     private javax.swing.JComboBox<String> comSupplier;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
